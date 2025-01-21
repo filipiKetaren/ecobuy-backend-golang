@@ -25,7 +25,7 @@ func ConnectDatabase() (*gorm.DB, error) {
 		Name:     os.Getenv("DATABASE_NAME"),
 	}
 
-	dsn := fmt.Sprintf("user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local",
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
 		configDB.User,
 		configDB.Password,
 		configDB.Host,
