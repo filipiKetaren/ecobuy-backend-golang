@@ -3,6 +3,7 @@ package main
 import (
 	"ecobuy/config"
 	"ecobuy/controllers/auth"
+	"ecobuy/middlewares"
 	AuthRepositories "ecobuy/repositories/auth"
 	"ecobuy/routes"
 	AuthService "ecobuy/services/auth"
@@ -25,8 +26,10 @@ func main() {
 
 	// Membuat instance Echo
 	e := echo.New()
+
+	jwtUser := middlewares.JwtUser{}
 	authRepo := AuthRepositories.NewAuthRepository(db)
-	authService := AuthService.NewAuthService(authRepo)
+	authService := AuthService.NewAuthService(authRepo, jwtUser)
 	authController := auth.NewAuthController(authService)
 
 	routeController := routes.RouteController{

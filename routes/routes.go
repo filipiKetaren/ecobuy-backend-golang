@@ -13,4 +13,5 @@ type RouteController struct {
 func (rc RouteController) RegisterRoutes(e *echo.Echo) {
 	// endpoint user
 	e.POST("/register", rc.AuthController.RegisterController)
+	e.POST("/login", rc.AuthController.LoginController)
 }

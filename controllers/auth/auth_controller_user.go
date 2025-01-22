@@ -42,3 +42,19 @@ func (ac *AuthController) RegisterController(c echo.Context) error {
 		"user":    response.RegisterFromEntities(user),
 	})
 }
+
+func (ac *AuthController) LoginController(c echo.Context) error {
+	userLogin := request.LoginRequest{}
+	c.Bind(&userLogin)
+	user, err := ac.AuthService.LoginUser(userLogin.ToEntities())
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Login successful",
+		"user":    response.LoginFromEntities(user),
+	})
+}

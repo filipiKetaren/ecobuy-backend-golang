@@ -3,6 +3,7 @@ package auth
 import (
 	"ecobuy/entities"
 	"ecobuy/repositories/models"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -16,6 +17,7 @@ func NewAuthRepository(db *gorm.DB) *AuthRepository {
 type AuthRepositoryInterface interface {
 	RegisterUser(entities.User) (entities.User, error)
 	CheckEmailExists(email string) (bool, error)
+	LoginUser(user entities.User) (entities.User, error)
 }
 
 type AuthRepository struct {
@@ -38,4 +40,13 @@ func (ar *AuthRepository) CheckEmailExists(email string) (bool, error) {
 		return false, err
 	}
 	return count > 0, nil
+}
+
+func (ar *AuthRepository) LoginUser(user entities.User) (entities.User, error) {
+	userDB := models.FromEntitiesUser(user)
+	err := ar.db.First(&userDB, "email = ?", userDB.Email)
+	if err.Error != nil {
+		return entities.User{}, errors.New("email tidak ditemukan")
+	}
+	return userDB.ToEntities(), nil
 }

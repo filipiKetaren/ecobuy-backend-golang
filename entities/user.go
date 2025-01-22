@@ -9,6 +9,7 @@ type User struct {
 	Password         string
 	MembershipStatus string
 	Points           int
+	Token            string
 	CreateAt         time.Time
 	UpdateAt         time.Time
 }
