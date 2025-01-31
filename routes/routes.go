@@ -25,4 +25,5 @@ func (rc RouteController) RegisterRoutes(e *echo.Echo) {
 	// Endpoint Produk (Bisa filter kategori & support pagination)
 	eUserProduct := eJwt.Group("/product")
 	eUserProduct.GET("", rc.ProductController.GetProductsController)
+	eUserProduct.GET("/:id", rc.ProductController.GetProductDetailController)
 }

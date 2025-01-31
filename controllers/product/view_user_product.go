@@ -45,3 +45,24 @@ func (pc *ProductController) GetProductsController(c echo.Context) error {
 		"data":    products,
 	})
 }
+
+func (pc *ProductController) GetProductDetailController(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "ID produk tidak valid",
+		})
+	}
+
+	product, err := pc.ProductService.GetProductByID(id)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]interface{}{
+			"message": "Produk tidak ditemukan",
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Berhasil mendapatkan detail produk",
+		"data":    product,
+	})
+}

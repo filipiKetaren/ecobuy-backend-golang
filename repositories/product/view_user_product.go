@@ -9,6 +9,7 @@ import (
 
 type ProductRepositoryInterface interface {
 	GetProducts(category string, page int, limit int) ([]entities.Product, error)
+	GetProductByID(id int) (*entities.Product, error)
 }
 
 type ProductRepository struct {
@@ -43,4 +44,15 @@ func (pr *ProductRepository) GetProducts(category string, page int, limit int) (
 	}
 
 	return entityProducts, nil
+}
+
+func (pr *ProductRepository) GetProductByID(id int) (*entities.Product, error) {
+	var product models.Product
+	err := pr.db.First(&product, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	entityProduct := product.ToEntities()
+	return &entityProduct, nil
 }

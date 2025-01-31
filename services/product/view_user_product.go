@@ -7,6 +7,7 @@ import (
 
 type ProductServiceInterface interface {
 	GetProducts(category string, page int, limit int) ([]entities.Product, error)
+	GetProductByID(id int) (*entities.Product, error)
 }
 
 type ProductService struct {
@@ -21,4 +22,8 @@ func NewProductService(pr product.ProductRepositoryInterface) *ProductService {
 
 func (ps *ProductService) GetProducts(category string, page int, limit int) ([]entities.Product, error) {
 	return ps.ProductRepo.GetProducts(category, page, limit)
+}
+
+func (ps *ProductService) GetProductByID(id int) (*entities.Product, error) {
+	return ps.ProductRepo.GetProductByID(id)
 }
