@@ -3,10 +3,13 @@ package main
 import (
 	"ecobuy/config"
 	"ecobuy/controllers/auth"
+	"ecobuy/controllers/product"
 	"ecobuy/middlewares"
 	AuthRepositories "ecobuy/repositories/auth"
+	ProductRepositories "ecobuy/repositories/product"
 	"ecobuy/routes"
 	AuthService "ecobuy/services/auth"
+	ProductService "ecobuy/services/product"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -32,8 +35,13 @@ func main() {
 	authService := AuthService.NewAuthService(authRepo, jwtUser)
 	authController := auth.NewAuthController(authService)
 
+	productRepo := ProductRepositories.NewProductRepository(db)
+	productService := ProductService.NewProductService(productRepo)
+	productController := product.NewProductController(productService)
+
 	routeController := routes.RouteController{
-		AuthController: *authController,
+		AuthController:    *authController,
+		ProductController: *productController,
 	}
 	routeController.RegisterRoutes(e)
 
