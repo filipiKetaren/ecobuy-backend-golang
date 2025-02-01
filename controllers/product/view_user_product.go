@@ -66,3 +66,18 @@ func (pc *ProductController) GetProductDetailController(c echo.Context) error {
 		"data":    product,
 	})
 }
+
+func (pc *ProductController) GetImpactByProductID(c echo.Context) error {
+	productIDParam := c.Param("id")
+	productID, err := strconv.Atoi(productIDParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid product ID"})
+	}
+
+	impact, err := pc.ProductService.GetImpactByProductID(uint(productID))
+	if err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{"error": "Impact data not found"})
+	}
+
+	return c.JSON(http.StatusOK, impact)
+}

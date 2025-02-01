@@ -26,4 +26,7 @@ func (rc RouteController) RegisterRoutes(e *echo.Echo) {
 	eUserProduct := eJwt.Group("/product")
 	eUserProduct.GET("", rc.ProductController.GetProductsController)
 	eUserProduct.GET("/:id", rc.ProductController.GetProductDetailController)
+
+	// Endpoint untuk mendapatkan data dampak lingkungan produk
+	eUserProduct.GET("/:id/impact", rc.ProductController.GetImpactByProductID)
 }

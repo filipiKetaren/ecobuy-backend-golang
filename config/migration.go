@@ -8,5 +8,5 @@ import (
 
 func RunMigrations(db *gorm.DB) {
 	// AutoMigrate tabel
-	db.AutoMigrate(&models.User{}, &models.Product{})
+	db.AutoMigrate(&models.User{}, &models.Product{}, &models.ImpactData{})
 }

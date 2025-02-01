@@ -10,6 +10,7 @@ import (
 type ProductRepositoryInterface interface {
 	GetProducts(category string, page int, limit int) ([]entities.Product, error)
 	GetProductByID(id int) (*entities.Product, error)
+	GetImpactByProductID(productID uint) (*entities.ImpactData, error)
 }
 
 type ProductRepository struct {
@@ -55,4 +56,14 @@ func (pr *ProductRepository) GetProductByID(id int) (*entities.Product, error) {
 
 	entityProduct := product.ToEntities()
 	return &entityProduct, nil
+}
+
+func (r *ProductRepository) GetImpactByProductID(productID uint) (*entities.ImpactData, error) {
+	var impact models.ImpactData
+	err := r.db.Where("product_id = ?", productID).First(&impact).Error
+	if err != nil {
+		return nil, err
+	}
+	entityImpact := impact.ToEntities()
+	return &entityImpact, nil
 }
